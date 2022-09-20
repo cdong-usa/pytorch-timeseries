@@ -58,8 +58,12 @@ def load_ucr_data(data_path: Path,
 
     experiment = data_path.parts[-1]
 
-    train = np.loadtxt(data_path / f'{experiment}_TRAIN', delimiter=',')
-    test = np.loadtxt(data_path / f'{experiment}_TEST', delimiter=',')
+    # print("data_path / f'{experiment}_TRAIN'", data_path / f'{experiment}_TRAIN')
+
+    # train = np.loadtxt(data_path / f'{experiment}_TRAIN', delimiter=',')
+    train = np.loadtxt(data_path / f'{experiment}_TRAIN.tsv')
+    # test = np.loadtxt(data_path / f'{experiment}_TEST', delimiter=',')
+    test = np.loadtxt(data_path / f'{experiment}_TEST.tsv')
 
     if encoder is None:
         encoder = OneHotEncoder(categories='auto', sparse=False)
@@ -119,6 +123,7 @@ class UCRTrainer(BaseTrainer):
             f'{self.experiment} must be one of the UCR datasets: ' \
             f'https://www.cs.ucr.edu/~eamonn/time_series_data/'
         experiment_datapath = self.data_folder / 'UCR_TS_Archive_2015' / self.experiment
+        # print('experiment_datapath: ', experiment_datapath)
         if self.encoder is None:
             train, test, encoder = load_ucr_data(experiment_datapath)
             self.encoder = encoder
